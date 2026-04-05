@@ -1,0 +1,148 @@
+{
+  "name": "copilot-agent-bridge",
+  "displayName": "Copilot Agent Bridge",
+  "description": "Connect your Python AI agent to GitHub Copilot via a local HTTP bridge",
+  "version": "1.0.0",
+  "publisher": "your-publisher-name",
+  "icon": "assets/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/copilot-agent-bridge"
+  },
+  "engines": { "vscode": "^1.90.0" },
+  "categories": ["AI", "Other"],
+  "keywords": ["copilot", "agent", "ai", "bridge", "llm", "python"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "copilot-bridge.startServer", "title": "Start Bridge Server", "category": "Copilot Bridge", "icon": "$(play)" },
+      { "command": "copilot-bridge.stopServer", "title": "Stop Bridge Server", "category": "Copilot Bridge", "icon": "$(primitive-square)" },
+      { "command": "copilot-bridge.restartServer", "title": "Restart Bridge Server", "category": "Copilot Bridge", "icon": "$(refresh)" },
+      { "command": "copilot-bridge.openDashboard", "title": "Open Dashboard", "category": "Copilot Bridge", "icon": "$(dashboard)" },
+      { "command": "copilot-bridge.connectAgent", "title": "Connect Agent Directory", "category": "Copilot Bridge", "icon": "$(folder-opened)" },
+      { "command": "copilot-bridge.testConnection", "title": "Test Connection", "category": "Copilot Bridge", "icon": "$(beaker)" },
+      { "command": "copilot-bridge.copyEnvConfig", "title": "Copy .env Config", "category": "Copilot Bridge", "icon": "$(copy)" },
+      { "command": "copilot-bridge.viewLogs", "title": "View Bridge Logs", "category": "Copilot Bridge", "icon": "$(output)" },
+      { "command": "copilot-bridge.clearLogs", "title": "Clear Logs", "category": "Copilot Bridge", "icon": "$(clear-all)" },
+      { "command": "copilot-bridge.refreshSidebar", "title": "Refresh", "category": "Copilot Bridge", "icon": "$(refresh)" }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "copilot-bridge-sidebar", "title": "Copilot Agent Bridge", "icon": "$(robot)" }
+      ]
+    },
+    "views": {
+      "copilot-bridge-sidebar": [
+        { "id": "copilot-bridge.serverView", "name": "Bridge Server", "icon": "$(server)", "contextualTitle": "Server Control" },
+        { "id": "copilot-bridge.agentView", "name": "Connected Agents", "icon": "$(extensions)", "contextualTitle": "Agent Connections" },
+        { "id": "copilot-bridge.statsView", "name": "Live Stats", "icon": "$(graph)", "contextualTitle": "Request Statistics" },
+        { "id": "copilot-bridge.modelsView", "name": "Available Models", "icon": "$(sparkle)", "contextualTitle": "Copilot Models" }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        { "command": "copilot-bridge.startServer", "when": "view == copilot-bridge.serverView", "group": "navigation@1" },
+        { "command": "copilot-bridge.stopServer", "when": "view == copilot-bridge.serverView", "group": "navigation@2" },
+        { "command": "copilot-bridge.openDashboard", "when": "view == copilot-bridge.serverView", "group": "navigation@3" },
+        { "command": "copilot-bridge.refreshSidebar", "when": "view == copilot-bridge.agentView", "group": "navigation" }
+      ],
+      "commandPalette": [
+        { "command": "copilot-bridge.startServer" },
+        { "command": "copilot-bridge.stopServer" },
+        { "command": "copilot-bridge.restartServer" },
+        { "command": "copilot-bridge.openDashboard" },
+        { "command": "copilot-bridge.connectAgent" },
+        { "command": "copilot-bridge.testConnection" }
+      ]
+    },
+    "configuration": {
+      "title": "Copilot Agent Bridge",
+      "properties": {
+        "copilotBridge.port": {
+          "type": "number",
+          "default": 8765,
+          "minimum": 1024,
+          "maximum": 65535,
+          "description": "Local port for the bridge HTTP server"
+        },
+        "copilotBridge.host": {
+          "type": "string",
+          "default": "127.0.0.1",
+          "description": "Host binding (keep 127.0.0.1 for security)"
+        },
+        "copilotBridge.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start bridge when VS Code opens"
+        },
+        "copilotBridge.authToken": {
+          "type": "string",
+          "default": "",
+          "description": "Optional bearer token to secure the bridge endpoint"
+        },
+        "copilotBridge.defaultModel": {
+          "type": "string",
+          "default": "gpt-4o",
+          "enum": [
+            "gpt-4o",
+            "gpt-4",
+            "gpt-3.5-turbo",
+            "claude-3.5-sonnet",
+            "o1",
+            "o3-mini"
+          ],
+          "enumDescriptions": [
+            "GPT-4o — fastest, best balance",
+            "GPT-4 — high quality",
+            "GPT-3.5 Turbo — fastest, lightweight",
+            "Claude 3.5 Sonnet — great for code",
+            "o1 — advanced reasoning",
+            "o3-mini — fast reasoning"
+          ],
+          "description": "Default Copilot model for bridge requests"
+        },
+        "copilotBridge.agentDirectories": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Python agent root directories connected to this bridge"
+        },
+        "copilotBridge.maxRequestHistory": {
+          "type": "number",
+          "default": 100,
+          "description": "Maximum number of requests to keep in history"
+        },
+        "copilotBridge.requestTimeout": {
+          "type": "number",
+          "default": 90,
+          "description": "Request timeout in seconds"
+        },
+        "copilotBridge.logLevel": {
+          "type": "string",
+          "default": "info",
+          "enum": ["debug", "info", "warn", "error"],
+          "description": "Bridge logging level"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^9.0.0",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.4.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
