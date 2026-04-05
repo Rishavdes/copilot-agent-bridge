@@ -47,6 +47,77 @@ Access powerful models:
 * `gpt-4`
 * `o1`
 * `o3-mini`
+# 🤖 Supported AI Models
+
+✨ *Copilot Agent Bridge supports a wide range of powerful AI models available through GitHub Copilot (depending on your subscription plan).*
+
+---
+
+## 🔹 🧠 OpenAI Models
+
+Harness cutting-edge intelligence for coding, reasoning, and multimodal tasks:
+
+* 🚀 `gpt-4o` — Fast, multimodal flagship model
+* 🧩 `gpt-4.1` — Enhanced coding + reasoning (default in some environments)
+* ⚡ `gpt-4-turbo` — Optimized GPT-4 with improved speed
+* 🪶 `gpt-3.5-turbo` — Legacy model for basic tasks
+* 🆕 `gpt-5` *(latest preview)*
+* 🔹 `gpt-5-mini` — Lightweight & efficient
+* 🔥 `gpt-5.1` — Next-gen performance boost
+
+---
+
+## 🔹 🧮 Reasoning Models (OpenAI “o-series”)
+
+Designed for deep thinking and complex problem-solving:
+
+* 🧠 `o1` — Advanced reasoning powerhouse
+* ⚡ `o1-mini` — Lightweight reasoning model
+* 🚀 `o3-mini` — Fast & efficient reasoning
+
+---
+
+## 🔹 🤖 Anthropic Models (Claude)
+
+Reliable, safe, and highly capable AI assistants:
+
+* 🎯 `claude-sonnet-4`
+* ✨ `claude-sonnet-4.5`
+* 🏆 `claude-opus-4.5`
+* 🚀 `claude-opus-4.6`
+* ⚡ `claude-haiku-4.5` — Fast & lightweight
+
+---
+
+## 🔹 🌐 Google Models
+
+Powered by Google's advanced AI research:
+
+* 💡 `gemini-2.5-pro` — High-performance multimodal model
+
+---
+
+## 🔹 🛠️ Other / Agent Models
+
+Specialized tools for coding and automation:
+
+* 👨‍💻 `codex` — OpenAI coding agent
+* 🤖 `copilot-agent` — Built-in GitHub Copilot agent
+* 🧩 **Custom Models (BYOM)** — Bring Your Own Model
+
+---
+
+## ⚠️ Important Notes
+
+> 💡 **Keep in mind:**
+>
+> * 📦 Model availability depends on your Copilot plan *(Free, Pro, Pro+, Business, Enterprise)*
+> * 🖥️ Not all models appear in every environment *(VS Code, CLI, GitHub, etc.)*
+> * 🔄 GitHub may update (add/remove) models over time
+
+---
+
+✨ *Stay updated and choose the model that best fits your workflow!* 🚀
 
 ### 📊 Real-Time Dashboard
 
